@@ -23,12 +23,13 @@ class Autotest::Rails < Autotest
        "test/functional/#{m[1]}_controller_test.rb"]
     end
 
-    add_mapping %r%^test/(unit|integration|controllers|views|functional)/.*rb$% do |filename, _|
+    add_mapping %r%^test/(controllers|functional|helpers|integration|mailers|models|unit|views)/.*rb$% do |filename, _|
       filename
     end
 
     add_mapping %r%^app/models/(.*)\.rb$% do |_, m|
-      "test/unit/#{m[1]}_test.rb"
+      ["test/unit/#{m[1]}_test.rb",
+       "test/models/#{m[1]}_test.rb"]
     end
 
     add_mapping %r%^app/helpers/application_helper.rb% do
@@ -40,13 +41,15 @@ class Autotest::Rails < Autotest
         files_matching %r%^test/(views|functional)/.*_test\.rb$%
       else
         ["test/views/#{m[1]}_view_test.rb",
-         "test/functional/#{m[1]}_controller_test.rb"]
+         "test/functional/#{m[1]}_controller_test.rb",
+         "test/controllers/#{m[1]}_controller_test.rb"]
       end
     end
 
     add_mapping %r%^app/views/(.*)/% do |_, m|
       ["test/views/#{m[1]}_view_test.rb",
-       "test/functional/#{m[1]}_controller_test.rb"]
+       "test/functional/#{m[1]}_controller_test.rb",
+       "test/controllers/#{m[1]}_controller_test.rb"]
     end
 
     add_mapping %r%^app/controllers/(.*)\.rb$% do |_, m|
